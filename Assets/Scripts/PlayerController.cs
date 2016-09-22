@@ -12,14 +12,18 @@ public class PlayerController : MonoBehaviour {
 	public Text winText;
 	public Camera thirdPerson;
 	public Camera overhead;
+	public Camera rearView;
+	private int camCount;
 
 	void Start ()
 	{
 		thirdPerson.enabled = true;
 		overhead.enabled = false;
+		rearView.enabled = false;
 
 		rb = GetComponent<Rigidbody> ();
 		count = 0;
+		camCount = 0;
 		setCountText ();
 		winText.text = "";
 	}
@@ -35,10 +39,25 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update() {
-
 		if (Input.GetKeyDown(KeyCode.C)) {
-			thirdPerson.enabled = !thirdPerson.enabled;
-			overhead.enabled = !overhead.enabled;
+			if (camCount == 0) {
+				thirdPerson.enabled = true;
+				rearView.enabled = false;
+
+			}
+			if (camCount == 1) {
+				overhead.enabled = true;
+				thirdPerson.enabled = false;
+			}
+			if (camCount == 2) {
+				rearView.enabled = true;
+				overhead.enabled = false;
+			}
+			camCount++;
+			if (camCount >= 3)
+			{
+				camCount = 0;
+			}
 		}
 	}
 
