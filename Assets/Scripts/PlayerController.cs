@@ -10,9 +10,14 @@ public class PlayerController : MonoBehaviour {
 	private int count;
 	public Text countText;
 	public Text winText;
+	public Camera thirdPerson;
+	public Camera overhead;
 
 	void Start ()
 	{
+		thirdPerson.enabled = true;
+		overhead.enabled = false;
+
 		rb = GetComponent<Rigidbody> ();
 		count = 0;
 		setCountText ();
@@ -27,6 +32,14 @@ public class PlayerController : MonoBehaviour {
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVeritcal);
 
 		rb.AddForce (movement * speed);
+	}
+
+	void Update() {
+
+		if (Input.GetKeyDown(KeyCode.C)) {
+			thirdPerson.enabled = !thirdPerson.enabled;
+			overhead.enabled = !overhead.enabled;
+		}
 	}
 
 	void OnTriggerEnter(Collider other) {
